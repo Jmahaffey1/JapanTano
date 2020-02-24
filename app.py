@@ -56,3 +56,7 @@ def close_db(error):
 @app.route('/')
 def show_home():
     return render_template('homepage.html')
+
+@app.route('/about')
+def show_about():
+    return render_template('about.html')

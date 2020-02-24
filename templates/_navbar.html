@@ -8,12 +8,12 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav">
                 <a href="{{ url_for('show_home') }}" class="nav-item nav-link">Home</a>
-                <a href="#" class="nav-item nav-link">About</a>
-            </div>
-            <div class="navbar-nav ml-auto" style="float: right">
-                <a href="#"class="nav-item nav-link">Register</a>
-                <a href="#" class="nav-item nav-link">Login</a>
+                <a href="{{ url_for('show_about') }}" class="nav-item nav-link">About</a>
             </div>
         </div>
+        <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="text" placeholder="Search Grammar" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
     </div>
 </nav>
