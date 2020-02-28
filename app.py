@@ -60,3 +60,50 @@ def show_home():
 @app.route('/about')
 def show_about():
     return render_template('about.html')
+
+@app.route('/grammar')
+def show_grammar():
+    return render_template('grammarPage.html')
+
+@app.route('/login')
+def login():
+    return render_template('login.html')
+
+@app.route('/create', methods=['POST'])  # Create account
+def create():
+    db = get_db()
+    cur = db.execute('SELECT username from profile where username=?',
+                     [request.form['email']])
+    row = cur.fetchone()
+    if row is None:
+        password = request.form['password']
+        hPassword = generate_password_hash(password)
+        db.execute('INSERT into profile (username, hPassword) values(?,?,)',
+                   [request.form['first_name'], request.form['last_name'], request.form['email'], hPassword])
+        db.commit()
+        flash('You created an account!')
+        return redirect(url_for('viewLogin'))
+    else:
+        flash('Email already taken')
+        return redirect(url_for('viewCreateAccount'))
+
+@app.route('/login', methods=['POST'])
+def login():
+    db = get_db()
+    cur = db.execute('SELECT hPassword, id from profile where username=?',
+                     [request.form['username']])
+    row = cur.fetchone()
+    if row is None:
+        flash('Invalid username')
+        return redirect(url_for('login'))
+    elif check_password_hash(row[0], request.form['password']):  # Not correct
+        session['user_id'] = row[1]
+        db = get_db()
+        db.execute('UPDATE profile SET login=1 WHERE id=?',
+                   [session['user_id']])
+        db.commit()
+        flash('You were logged in')
+        return redirect(url_for('homeIn'))
+    else:
+        flash('Invalid password')
+        return redirect(url_for('viewLogin'))

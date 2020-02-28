@@ -1,0 +1,14 @@
+body{
+    background: lightslategrey;
+}
+
+.logo-image{
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-top: -6px;
+}
+
+
+
